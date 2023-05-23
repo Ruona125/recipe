@@ -16,7 +16,7 @@ app.use(cors());
 
 app.use("/auth", userRouter)
 
-mongoose.connect(`mongodb+srv://ruona:${process.env.PASSWORD}@receipes.lmcmfss.mongodb.net/${process.env.RECEIPES}?retryWrites=true&w=majority`).then(() => {
+mongoose.connect(`mongodb+srv://ruona:${process.env.PASSWORD}@receipes.lmcmfss.mongodb.net/?retryWrites=true&w=majority`).then(() => {
         console.log("Connected to database!");
         app.listen(8000, () => {
             console.log("server is running on port 8000");
