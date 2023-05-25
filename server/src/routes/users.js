@@ -6,9 +6,9 @@ import { UserModel } from "../models/Users.js";
 const router = express.Router();
 
 router.post("/register", async (req, res) => {
-    const {username, password} = req.body;
+    const {userName, password} = req.body;
 
-    const user = await UserModel.findOne({username});
+    const user = await UserModel.findOne({userName});
 
     if(user){
         return res.json({message: "User already exists!"})
@@ -16,7 +16,7 @@ router.post("/register", async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     
-    const newUser = new UserModel({username, password: hashedPassword})
+    const newUser = new UserModel({userName, password: hashedPassword})
     await newUser.save();
     
     res.json(newUser)
@@ -25,8 +25,8 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-    const {username, password} = req.body;
-    const user = await UserModel.findOne({username});
+    const {userName, password} = req.body;
+    const user = await UserModel.findOne({userName});
 
     if(!user){
         return res.json({message: "user doesn't exists!"})
@@ -35,7 +35,7 @@ router.post("/login", async (req, res) => {
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if(!isPasswordValid){
-        return res.json({message: "username or password is incorrect"})
+        return res.json({message: "userName or password is incorrect"})
     }
 
     const token = jwt.sign({id: user._id}, "secret");
